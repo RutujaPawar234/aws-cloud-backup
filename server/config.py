@@ -36,12 +36,15 @@ class Settings:
 
     @property
     def aws_configured(self) -> bool:
-        """True only when the server has the AWS settings it needs."""
-        return bool(
-            self.AWS_ACCESS_KEY_ID
-            and self.AWS_SECRET_ACCESS_KEY
-            and self.S3_BUCKET_NAME
-        )
+        """
+        True when the server has what it needs to reach AWS.
+
+        Credentials may come from explicit keys (local .env) OR from an attached
+        IAM role (e.g. an EC2 instance role), which boto3 resolves automatically.
+        So we only require the bucket name here; if no credentials are available
+        anywhere, the first AWS call fails and is reported as a cloud error.
+        """
+        return bool(self.S3_BUCKET_NAME)
 
 
 @lru_cache
