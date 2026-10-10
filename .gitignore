@@ -1,0 +1,32 @@
+# Environment / secrets
+.env
+*.env
+!.env.example
+
+# AWS
+.aws/
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Test / cache
+.pytest_cache/
+.coverage
+
+# Client local config
+client_config.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log

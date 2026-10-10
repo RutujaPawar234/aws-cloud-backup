@@ -1,0 +1,27 @@
+# Render Blueprint — one-click deploy of the FastAPI backend.
+# In Render: New + -> Blueprint -> connect this repo. Then set the secret
+# AWS env vars in the dashboard (they are intentionally not stored here).
+services:
+  - type: web
+    name: aws-cloud-backup-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_REGION
+        value: ap-south-1
+      - key: S3_BUCKET_NAME
+        sync: false
+      - key: DYNAMODB_TABLE_NAME
+        value: BackupFiles
+      - key: DYNAMODB_USERS_TABLE
+        value: BackupUsers
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "720"
