@@ -2,18 +2,31 @@
 Client-side configuration: the backend URL and (optionally) a remembered token.
 
 The backend URL comes from, in order:
-  1. the BACKEND_URL environment variable (handy after cloud deployment),
-  2. a saved client_config.json next to the app,
-  3. the default http://127.0.0.1:8000 for local development.
+  1. the BACKEND_URL environment variable,
+  2. a client_config.json next to the app (for the packaged .exe, this file
+     sits beside CloudVault.exe so you can change the server without rebuilding),
+  3. the default deployed backend below.
 """
 from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 
-DEFAULT_BACKEND_URL = "http://127.0.0.1:8000"
-_CONFIG_PATH = Path(__file__).resolve().parent.parent / "client_config.json"
+# Default = the deployed EC2 backend. Change this (or client_config.json) if the
+# server's address changes (e.g. after allocating an Elastic IP).
+DEFAULT_BACKEND_URL = "http://32.236.139.9:8000"
+
+
+def _config_path() -> Path:
+    """Where client_config.json lives: next to the .exe when frozen, else client/."""
+    if getattr(sys, "frozen", False):          # running as a PyInstaller .exe
+        return Path(sys.executable).resolve().parent / "client_config.json"
+    return Path(__file__).resolve().parent.parent / "client_config.json"
+
+
+_CONFIG_PATH = _config_path()
 
 
 def _read() -> dict:
