@@ -16,7 +16,7 @@ from pathlib import Path
 
 # Default = the deployed EC2 backend. Change this (or client_config.json) if the
 # server's address changes (e.g. after allocating an Elastic IP).
-DEFAULT_BACKEND_URL = "http://32.236.139.9:8000"
+DEFAULT_BACKEND_URL = "http://16.178.22.30:8000"
 
 
 def _config_path() -> Path:
